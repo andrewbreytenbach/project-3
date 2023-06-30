@@ -11,17 +11,16 @@ const typeDefs = gql`
   }
 
   type Entry {
-    list_id: List
-    name: String,
-    notes: String,
-    created_at: String
-    updated_at: String
+    entry_id: ID!
+    body: String!
+    note: String
+    rating: Int
   }
 
   type List {
-    user_id: User
-    created_at: String
-    updated_at: String
+    list_id: ID!
+    title: String!
+    user: User
     entries: [Entry]
   }
 
@@ -31,12 +30,18 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User!
+    me: User
+    list: List
   }
 
   type Mutation {
-    login(email: String!, password: String!): Auth!
-    addUser(username: String!, email: String!, password: String!): Auth!
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+    addEntry(body: String!, note: String!, rating: Int!): Entry 
+    updateEntry(body: String!, note: String!, rating: Int!): Entry
+    deleteEntry(entry_id: ID!): Entry 
+    createList(title: String!): List 
+    deleteList(list_id: ID): List
   }
 
 `;
