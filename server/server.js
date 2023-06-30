@@ -1,51 +1,56 @@
+// Import necessary libraries and modules
 const express = require('express');
-const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schemas/schemas');
+const path = require('path');
+const { authMiddleware } = require('./utils/auth');
+
+// Import GraphQL type definitions and resolvers from the schemas file
+const { typeDefs, resolvers } = require('./schemas');
+
+// Import database connection configuration
 const db = require('./config/connection');
-const routes = require('./routes');
-const { GraphQLModule } = require('graphql-modules');
-const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core'); // Import the necessary plugin
 
-async function startApolloServer() {
-  const app = express();
-  const PORT = process.env.PORT || 3001;
+// Set the port for the server to listen on
+const PORT = process.env.PORT || 3001;
 
-  // Apollo Server setup
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => ({ req }),
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()], // Add the playground plugin
-  });
+// Create an instance of the Express application
+const app = express();
 
-  await server.start();
+// Create an instance of the Apollo Server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware, // Middleware function for authentication
+});
 
-  // Apply Apollo Server middleware before other middleware and routes
-  server.applyMiddleware({ app });
+// Configure middleware for parsing URL-encoded and JSON data
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-  const driverConfig = {
-    driver: ApolloDriver,
-    cache: 'bounded',
-    // Other configuration options for your Apollo Driver
-  };
-
-  const graphqlModule = new GraphQLModule(driverConfig);
-
-  // Middleware and routes
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
-
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
-  }
-
-  app.use(routes);
-
-  // Connect to the database and start the server
-  db.once('open', () => {
-    app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-  });
+// Serve static files from the client build folder in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-startApolloServer().catch((err) => console.error(err));
+// Route for serving the index.html file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
+// Asynchronous function to start the Apollo Server
+const startApolloServer = async () => {
+  await server.start();
+  server.applyMiddleware({ app });
+
+  // Open the database connection
+  db.once('open', () => {
+    // Start the Express server
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    });
+  });
+};
+
+// Call the async function to start the server
+startApolloServer();
