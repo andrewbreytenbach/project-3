@@ -11,7 +11,7 @@ const { authMiddleware } = require('./utils/auth')
 
 // async function startApolloServer() {
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3007;
 
 // Apollo Server setup
 const server = new ApolloServer({
