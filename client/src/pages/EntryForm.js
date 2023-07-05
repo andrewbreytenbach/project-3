@@ -1,56 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EntryForm = () => {
   const [title, setTitle] = useState('');
-  const [notes, setNotes] = useState('');
-  const [rating, setRating] = useState('');
-  const [isAddedToFavorites, setIsAddedToFavorites] = useState(false);
+  const [body, setBody] = useState('');
+  const [rating, setRating] = useState(0);
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    const fetchLists = async () => {
+      try {
+        const response = await fetch('/api/lists'); // Replace with your API endpoint URL
+        const data = await response.json();
+        setLists(data);
+      } catch (error) {
+        console.error('Error fetching lists:', error);
+      }
+    };
+
+    fetchLists();
+  }, []); // Empty dependency array to fetch data only once when the component mounts
 
   const handleAddToFavorites = () => {
     // Perform logic to add the entry to favorites (e.g., API request or state management)
     // Here, we are simply logging the values for demonstration purposes
-    console.log('Entry Title:', title);
-    console.log('Notes:', notes);
+    console.log('Title:', title);
+    console.log('Body:', body);
     console.log('Rating:', rating);
-    setIsAddedToFavorites(true);
   };
 
   return (
     <div>
       <h2>New Entry</h2>
-      <div>
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="notes">Notes:</label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        ></textarea>
-      </div>
-      <div>
-        <label htmlFor="rating">Rating:</label>
-        <input
-          type="number"
-          id="rating"
-          min="1"
-          max="5"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-        />
-      </div>
-      <div>
-        <button onClick={handleAddToFavorites}>
-          {isAddedToFavorites ? 'Added to Favorites' : 'Add to Favorites'}
+      <form>
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="body">Body:</label>
+          <textarea
+            id="body"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="rating">Rating:</label>
+          <input
+            type="number"
+            id="rating"
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+          />
+        </div>
+        <div>
+          <label htmlFor="list">Select List:</label>
+          <select id="list">
+            {lists.map((list) => (
+              <option key={list.id} value={list.id}>
+                {list.title}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button type="button" onClick={handleAddToFavorites}>
+          Add to Favorites
         </button>
-      </div>
+      </form>
     </div>
   );
 };
