@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Favorites = () => {
-  // Mock data for demonstration purposes
-  const lists = [
-    { id: 1, title: 'Favorite Artists', description: 'My favorite artists' },
-    { id: 2, title: 'Top Songs', description: 'My top songs' },
-  ];
+  const [lists, setLists] = useState([]);
+  const [entries, setEntries] = useState([]);
 
-  const entries = [
-    { id: 1, title: 'Favorite Song', notes: 'This is my favorite song', rating: 5 },
-    { id: 2, title: 'Best Album', notes: 'The best album of all time', rating: 4 },
-  ];
+  useEffect(() => {
+    const fetchLists = async () => {
+      try {
+        const response = await fetch('/api/lists'); // Replace with your API endpoint URL
+        const data = await response.json();
+        setLists(data);
+      } catch (error) {
+        console.error('Error fetching lists:', error);
+      }
+    };
+
+    const fetchEntries = async () => {
+      try {
+        const response = await fetch('/api/entries'); // Replace with your API endpoint URL
+        const data = await response.json();
+        setEntries(data);
+      } catch (error) {
+        console.error('Error fetching entries:', error);
+      }
+    };
+
+    fetchLists();
+    fetchEntries();
+  }, []); // Empty dependency array to fetch data only once when the component mounts
+
 
   return (
     <div>
