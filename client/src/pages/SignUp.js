@@ -10,8 +10,6 @@ const Signup = () => {
   const handleSignup = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     // Perform signup logic here
-    // You can use the name, email, and password variables to send a signup request to your backend server
-    // For simplicity, this example does not include the backend integration
     console.log('Name:', name);
     console.log('Email:', email);
     console.log('Password:', password);

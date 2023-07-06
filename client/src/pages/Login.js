@@ -9,8 +9,6 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     // Perform login logic here
-    // You can use the email and password variables to send a login request to your backend server
-    // For simplicity, this example does not include the backend integration
     console.log('Email:', email);
     console.log('Password:', password);
   };
