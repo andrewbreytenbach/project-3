@@ -12,6 +12,7 @@ const resolvers = {
       throw new Error('Not authenticated');
     },
   },
+
   Mutation: {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
@@ -32,8 +33,9 @@ const resolvers = {
         user,
       };
     },
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+
+    addUser: async (parent, args) => {
+      const user = await User.create(args);
 
       const token = signToken(user);
       return {
@@ -41,6 +43,21 @@ const resolvers = {
         user,
       };
     },
+
+    addEntry: async (parent, args, context) => {
+      if (context.user) {
+      const entry = await Entry.create(args);
+      return entry;
+      
+    }
+
+      throw new Error("You're not logged in!!")
+    },
+
+    deleteEntry: async (parent, {entry_id}) => {
+      return await Entry.findOneAndDelete({_id: entry_id})
+    },
+
   }
 };
 
