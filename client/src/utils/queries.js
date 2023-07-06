@@ -6,14 +6,27 @@ export const GET_ME = gql`
       _id
       username
       email
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
+      created_at
+      updated_at
+    }
+  }
+`;
+
+export const GET_LIST = gql`
+  query list {
+    list {
+      list_id
+      title
+      user {
+        _id
+        username
+        email
+      }
+      entries {
+        entry_id
+        body
+        note
+        rating
       }
     }
   }

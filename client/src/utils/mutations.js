@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
-  mutation loginUser($email: String!, $password: String!) {
+  mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
@@ -26,39 +26,74 @@ export const ADD_USER = gql`
   }
 `;
 
-export const SAVE_BOOK = gql`
-  mutation saveBook($bookInput: BookInput!) {
-    saveBook(bookInput: $bookInput) {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
+export const ADD_ENTRY = gql`
+  mutation addEntry($body: String!, $note: String!, $rating: Int!) {
+    addEntry(body: $body, note: $note, rating: $rating) {
+      entry_id
+      body
+      note
+      rating
+    }
+  }
+`;
+
+export const UPDATE_ENTRY = gql`
+  mutation updateEntry($body: String!, $note: String!, $rating: Int!) {
+    updateEntry(body: $body, note: $note, rating: $rating) {
+      entry_id
+      body
+      note
+      rating
+    }
+  }
+`;
+
+export const DELETE_ENTRY = gql`
+  mutation deleteEntry($entry_id: ID!) {
+    deleteEntry(entry_id: $entry_id) {
+      entry_id
+      body
+      note
+      rating
+    }
+  }
+`;
+
+export const CREATE_LIST = gql`
+  mutation createList($title: String!) {
+    createList(title: $title) {
+      list_id
+      title
+      user {
+        _id
+        username
+        email
+      }
+      entries {
+        entry_id
+        body
+        note
+        rating
       }
     }
   }
 `;
 
-export const REMOVE_BOOK = gql`
-  mutation removeBook($bookId: ID!) {
-    removeBook(bookId: $bookId) {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        description
-        title
-        image
-        link
+export const DELETE_LIST = gql`
+  mutation deleteList($list_id: ID) {
+    deleteList(list_id: $list_id) {
+      list_id
+      title
+      user {
+        _id
+        username
+        email
+      }
+      entries {
+        entry_id
+        body
+        note
+        rating
       }
     }
   }
