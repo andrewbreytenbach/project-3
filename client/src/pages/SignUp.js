@@ -1,53 +1,77 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const Signup = () => {
-  // State variables to store user input
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signup, { error, data }] = useMutation(ADD_USER);
 
-  // Function to handle the signup form submission
-  const handleSignup = (e) => {
-    e.preventDefault(); // Prevents the default form submission behavior
-    // Perform signup logic here
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleSignup = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await signup({
+        variables: { name, email, password },
+      });
+
+      Auth.login(data.signup.token);
+    } catch (e) {
+      console.error(e);
+    }
+
+    setName('');
+    setEmail('');
+    setPassword('');
   };
 
   return (
     <div>
       <h2>Sign Up</h2>
-      <form onSubmit={handleSignup}>
+      {data ? (
+        <p>
+          Success! You may now head <Link to="/">back to the homepage.</Link>
+        </p>
+      ) : (
+        <form onSubmit={handleSignup}>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+      )}
+
+      {error && (
         <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <p className="error-text">An error occurred: {error.message}</p>
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
+      )}
     </div>
   );
 };
