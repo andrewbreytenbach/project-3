@@ -11,6 +11,9 @@ const Navbar = () => {
         </li>
         {/* Navigation link for the favorites page */}
         <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
           <Link to="/favorites">Favorites</Link>
         </li>
         {/* Navigation link for the login page */}

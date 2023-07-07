@@ -26,9 +26,9 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_ENTRY = gql`
+export const CREATE_ENTRY = gql`
   mutation addEntry($body: String!, $note: String!, $rating: Int!) {
-    addEntry(body: $body, note: $note, rating: $rating) {
+    CreateEntry(body: $body, note: $note, rating: $rating) {
       entry_id
       body
       note
@@ -62,6 +62,26 @@ export const DELETE_ENTRY = gql`
 export const CREATE_LIST = gql`
   mutation createList($title: String!) {
     createList(title: $title) {
+      list_id
+      title
+      user {
+        _id
+        username
+        email
+      }
+      entries {
+        entry_id
+        body
+        note
+        rating
+      }
+    }
+  }
+`;
+
+export const UPDATE_LIST = gql`
+  mutation updateList($title: String!) {
+    updateList(title: $title) {
       list_id
       title
       user {

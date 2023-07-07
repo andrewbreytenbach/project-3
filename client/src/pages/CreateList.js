@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { CREATE_LIST } from '../utils/mutations';
 
 const ListForm = () => {
   const [title, setTitle] = useState('');
   const [about, setAbout] = useState('');
   const [lists, setLists] = useState([]);
+
+  const [createList] = useMutation(CREATE_LIST);
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -17,13 +21,24 @@ const ListForm = () => {
     };
 
     fetchLists();
-  }, []); // Empty dependency array to fetch data only once when the component mounts
+  }, []);
 
-  const handleCreateList = () => {
-    // Perform logic to create a list (e.g., API request or state management)
-    // Here, we are simply logging the values for demonstration purposes
-    console.log('Title:', title);
-    console.log('About:', about);
+  const handleCreateList = async () => {
+    try {
+      // Create a new list
+      const { data } = await createList({
+        variables: {
+          title,
+        },
+      });
+
+      console.log('List created:', data);
+      // Reset form values
+      setTitle('');
+      setAbout('');
+    } catch (error) {
+      console.error('Error creating list:', error);
+    }
   };
 
   return (
@@ -49,9 +64,12 @@ const ListForm = () => {
         </div>
         <div>
           <label htmlFor="list">Select List:</label>
-          <select id="list">
+          <select
+            id="list"
+            onChange={(e) => setLists(e.target.value)}
+          >
             {lists.map((list) => (
-              <option key={list.id} value={list.id}>
+              <option key={list.list_id} value={list.list_id}>
                 {list.title}
               </option>
             ))}
