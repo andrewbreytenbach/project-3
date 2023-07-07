@@ -21,6 +21,7 @@ const resolvers = {
         throw new Error('Invalid email or password');
       }
 
+      console.log(user)
       const correctPassword = await user.isCorrectPassword(password);
 
       if (!correctPassword) {
@@ -48,16 +49,24 @@ const resolvers = {
       if (context.user) {
       const entry = await Entry.create(args);
       return entry;
-      
     }
 
       throw new Error("You're not logged in!!")
     },
 
-    deleteEntry: async (parent, {entry_id}) => {
+    deleteEntry: async (parent, {entry_id}, context) => {
+      if (context.user) {
       return await Entry.findOneAndDelete({_id: entry_id})
+      }
     },
-
+    
+    updateEntry: async (parent, {entry_id}, context) => {
+      if (context.user) {
+       const entryData = await Entry.findOneAndUpdate(
+        {}
+       )
+      }
+    }
   }
 };
 
