@@ -6,22 +6,30 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
-    created_at: String
-    updated_at: String
+    list: [List]
+  }
+
+ type List {
+    _id: ID!
+    title: String!
+    description: String!
+    username: String
+    entries: [Entry]
   }
 
   type Entry {
-    entry_id: ID!
-    body: String!
+    _id: ID!
+    title: String!
+    artist: String!
     note: String
     rating: Int
   }
 
-  type List {
-    list_id: ID!
+  input EntryInput {
     title: String!
-    user: User
-    entries: [Entry]
+    artist: String!
+    note: String
+    rating: Int
   }
 
   type Auth {
@@ -31,17 +39,16 @@ const typeDefs = gql`
 
   type Query {
     me: User
-    list: List
+    allLists: [List]
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    addEntry(body: String!, note: String!, rating: Int!): Entry 
-    updateEntry(body: String!, note: String!, rating: Int!): Entry
-    deleteEntry(entry_id: ID!): Entry 
-    createList(title: String!): List 
-    deleteList(list_id: ID): List
+    addEntry(entryInput: EntryInput): List 
+    deleteEntry(_id: ID!): List 
+    createList(title: String!, description: String!, username: String): User 
+   # deleteList(_id: ID): User
   }
 
 `;

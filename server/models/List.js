@@ -1,25 +1,36 @@
 const { Schema, model } = require('mongoose');
 
-const listSchema = new Schema({
-  
+const entrySchema = require('./Entry')
+
+const listSchema = new Schema(
+  {
+
   title: {
     type: String,
     required: true,
   },
-  user: {
-    type: Schema.Types.ObjectId, ref: 'User'
+  description: {
+    type: String,
+    required: true,
   },
-  entry: {
-    type: Schema.Types.ObjectId, ref: 'Entry'
-  }
+  username: {
+    type: String
+  },
+  entries: [entrySchema]
 
-  // title: String,
-  // name: String,
-  // user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // created_at: Date,
-  // updated_at: Date,
-  // entries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entry' }]
-});
+},
+{
+  toJSON: {
+    virtuals: true
+  },
+  id: false
+}
+);
+
+listSchema.virtual('entryCount').get(function(){
+  return this.entry.length
+})
+
 
 const List = model('List', listSchema);
 

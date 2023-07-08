@@ -1,5 +1,6 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+
 
 const userSchema = new Schema({
   username: {
@@ -14,14 +15,20 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
-  
-  // username: String,
-  // email: String,
-  // password: String,
-  // created_at: Date,
-  // updated_at: Date
-});
+  },
+  list: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'List'
+    }
+  ]
+
+
+
+}
+);
+
+
 
 
 
