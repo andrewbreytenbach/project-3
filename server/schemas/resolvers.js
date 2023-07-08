@@ -1,4 +1,4 @@
-const { User, Entry, List } = require('../models')
+const { User, List } = require('../models')
 const { signToken } = require('../utils/auth');
 
 
@@ -6,11 +6,18 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
+        const userData = await User.findOne({ _id: context.user._id }).populate('list');
         return userData;
       }
       throw new Error('Not authenticated');
     },
+    allLists: async (parent, args, context) => {
+      if (context.user) {
+        const listData = await List.find();
+        return listData;
+      }
+      throw new Error('Not authenticated');
+    }, 
   },
 
   Mutation: {
@@ -45,28 +52,54 @@ const resolvers = {
       };
     },
 
-    addEntry: async (parent, args, context) => {
+    createList: async (parent, args, context) => {
       if (context.user) {
-      const entry = await Entry.create(args);
-      return entry;
-    }
+        const listData = await List.create(args);
+
+        const userData = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $push: { list: listData._id } },
+          { new: true },
+        )
+
+        console.log(userData)
+        console.log(listData)
+        return userData
+      }
+
+      throw new Error("You're not logged in!!")
+
+    },
+
+    addEntry: async (parent, { _id, entryInput }, context) => {
+      if (context.user) {
+        const list = await List.findOneAndUpdate(
+          { _id: _id },
+          { $push: { entries: entryInput } },
+          { new: true },
+        )
+
+        return list
+      }
 
       throw new Error("You're not logged in!!")
     },
 
-    deleteEntry: async (parent, {entry_id}, context) => {
+    deleteEntry: async (parent, { _id, entries }, context) => {
       if (context.user) {
-      return await Entry.findOneAndDelete({_id: entry_id})
+        const list = await List.findOneAndUpdate(
+          { _id: _id },
+          { $pull: {entries} },
+          { new: true }
+        )
+        
+        console.log(list)
+        return list
       }
+
+      throw new Error("You're not logged in!!")
     },
-    
-    updateEntry: async (parent, {entry_id}, context) => {
-      if (context.user) {
-       const entryData = await Entry.findOneAndUpdate(
-        {}
-       )
-      }
-    }
+
   }
 };
 
