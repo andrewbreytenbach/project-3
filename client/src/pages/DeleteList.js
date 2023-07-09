@@ -1,3 +1,4 @@
+// DeleteList.js is a page that allows users to delete a list.
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_LIST } from '../utils/mutations';

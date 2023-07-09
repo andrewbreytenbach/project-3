@@ -1,3 +1,4 @@
+// CreateList.js is a form that allows users to create a new list.
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_LIST } from '../utils/mutations';

@@ -1,3 +1,4 @@
+// Login.js is a page that allows users to login to their account.
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';

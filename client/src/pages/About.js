@@ -1,3 +1,4 @@
+// About.js is a page that displays information about the app.
 import React from 'react';
 
 const About = () => {

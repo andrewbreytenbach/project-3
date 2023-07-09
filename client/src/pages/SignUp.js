@@ -1,3 +1,4 @@
+// SignUp.js is a page that allows users to sign up for an account.
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
