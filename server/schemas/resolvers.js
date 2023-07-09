@@ -17,7 +17,7 @@ const resolvers = {
         return listData;
       }
       throw new Error('Not authenticated');
-    }, 
+    },
   },
 
   Mutation: {
@@ -71,10 +71,28 @@ const resolvers = {
 
     },
 
-    addEntry: async (parent, { _id, entryInput }, context) => {
+    deleteList: async (parent, { list_id }, context) => {
+      if (context.user) {
+
+        const userData = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { list: list_id } },
+          { new: true },
+        )
+
+        console.log(userData)
+
+        return userData
+      }
+
+      throw new Error("You're not logged in!!")
+
+    },
+
+    addEntry: async (parent, { list_id, entryInput }, context) => {
       if (context.user) {
         const list = await List.findOneAndUpdate(
-          { _id: _id },
+          { _id: list_id },
           { $push: { entries: entryInput } },
           { new: true },
         )
@@ -85,14 +103,14 @@ const resolvers = {
       throw new Error("You're not logged in!!")
     },
 
-    deleteEntry: async (parent, { _id, entries }, context) => {
+    deleteEntry: async (parent, { list_id, entry_id }, context) => {
       if (context.user) {
         const list = await List.findOneAndUpdate(
-          { _id: _id },
-          { $pull: {entries} },
+          { _id: list_id },
+          { $pull: { entries: { _id: entry_id } } },
           { new: true }
         )
-        
+
         console.log(list)
         return list
       }
