@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { setContext } from '@apollo/client/link/context';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client';
 import Navbar from './pages/Navbar';
 import About from './pages/About';
 import CreateEntry from './pages/CreateEntry';
@@ -14,32 +20,57 @@ import UpdateEntry from './pages/UpdateEntry';
 import UpdateList from './pages/UpdateList';
 import Logout from './pages/Logout'; // Import the Logout component
 
-function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+// function App() {
+//   const [loggedIn, setLoggedIn] = useState(false);
 
-  // Function to handle login
-  const handleLogin = () => {
-    // Perform login authentication logic
-    // Set loggedIn to true if login is successful
-    setLoggedIn(true);
+//   // Function to handle login
+//   const handleLogin = () => {
+//     // Perform login authentication logic
+//     // Set loggedIn to true if login is successful
+//     setLoggedIn(true);
+//   };
+
+// Construct our main GraphQL API endpoint
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+// Construct request middleware that will attach the JWT token to every request as an `authorization` header
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('id_token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
   };
+});
 
+const client = new ApolloClient({
+  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+function App() {
   return (
-    <Router>
-      <>
+    <ApolloProvider client={client}>
+      <Router>
         <Navbar />
-        <Switch>
-          <Route exact path="/login">
-            {loggedIn ? <Redirect to="/" /> : <Login handleLogin={handleLogin} />}
+        
+          <Route exact path="/login" component={Login}>
+            {/* {loggedIn ? <Redirect to="/" /> : <Login handleLogin={handleLogin} />} */}
           </Route>
-          <Route exact path="/">
-            {loggedIn ? <HomePage userName="John" /> : <Redirect to="/login" />}
+          <Route exact path="/" component={HomePage}>
+            {/* {loggedIn ? <HomePage userName="John" /> : <Redirect to="/login" />} */}
           </Route>
-          <Route exact path="/about">
-            {loggedIn ? <About /> : <Redirect to="/login" />}
+          <Route exact path="/about" component={About}>
+            {/* {loggedIn ? <About /> : <Redirect to="/login" />} */}
           </Route>
-          <Route exact path="/favorites">
-            {loggedIn ? <Favorites /> : <Redirect to="/login" />}
+          <Route exact path="/favorites" component={Favorites}>
+            {/* {loggedIn ? <Favorites /> : <Redirect to="/login" />} */}
           </Route>
           <Route exact path="/createentry" component={CreateEntry} />
           <Route exact path="/createlist" component={CreateList} />
@@ -50,10 +81,10 @@ function App() {
           <Route exact path="/updatelist" component={UpdateList} />
           <Route exact path="/logout" component={Logout} /> {/* Add the Logout route */}
           {/* catch-all route that is rendered when none of the defined paths match */}
-          <Route render={() => <h1 className="display-2">Wrong page!</h1>} />
-        </Switch>
-      </>
-    </Router>
+          
+        
+      </Router>
+      </ApolloProvider>
   );
 }
 
