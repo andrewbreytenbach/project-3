@@ -1,3 +1,4 @@
+// UpdateList.js is a page that allows users to update a list.
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_LIST } from '../utils/mutations';

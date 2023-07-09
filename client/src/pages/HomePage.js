@@ -1,3 +1,4 @@
+// HomePage.js is a page that displays the homepage.
 import React from 'react';
 import { Link } from 'react-router-dom';
 

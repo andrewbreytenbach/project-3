@@ -1,3 +1,4 @@
+// CreateEntry.js is a page that allows users to create a new entry in their diary.
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_LIST, CREATE_ENTRY } from "../utils/mutations";

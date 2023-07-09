@@ -1,3 +1,4 @@
+// Navbar.js is a component that displays a navigation bar with links to the homepage, favorites page, login page, signup page, and logout page.
 import React from 'react';
 import { Link } from 'react-router-dom';
 

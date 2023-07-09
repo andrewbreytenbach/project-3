@@ -4,6 +4,8 @@ const { ApolloServer } = require('apollo-server-express');
 const { typeDefs , resolvers} = require('./schemas')
 const db = require('./config/connection');
 const { authMiddleware } = require('./utils/auth')
+const listRoutes = require('./routes/listRoutes'); 
+const entryRoutes = require('./routes/entryRoutes'); 
 
 // const routes = require('./routes');
 // const { GraphQLModule } = require('graphql-modules');
@@ -29,6 +31,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
+app.use('/api', listRoutes); // Use the list routes
+app.use('/api', entryRoutes); // Use the entry routes
 
 const startApolloServer = async () => {
   await server.start();

@@ -1,3 +1,4 @@
+// UpdateEntry.js is a page that allows users to update an entry in their diary.
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_ENTRY } from '../utils/mutations';

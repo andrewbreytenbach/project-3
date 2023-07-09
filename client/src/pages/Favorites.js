@@ -1,3 +1,4 @@
+// Favorites.js is a page that displays a user's favorite lists and entries.
 import React, { useState, useEffect } from 'react';
 
 const Favorites = () => {

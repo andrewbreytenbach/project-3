@@ -1,3 +1,4 @@
+// DeleteEntry.js is a page that allows users to delete an entry in their diary.
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_ENTRY } from '../utils/mutations';
