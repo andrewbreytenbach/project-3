@@ -47,8 +47,8 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addEntry(list_id: ID!, entryInput: EntryInput): List 
     deleteEntry(list_id: ID!, entry_id: ID!): List 
-    createList(title: String!, description: String!, username: String): User 
-    deleteList(list_id: ID): User
+    createList(title: String!, description: String!, username: String): List 
+    deleteList(list_id: ID): List
   }
 
 `;
