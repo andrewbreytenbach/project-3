@@ -1,7 +1,11 @@
 /* App.css */
 
-/* About.js */
-.about-container {
+.container,
+.about-container,
+.entry-form-container,
+.list-form-container,
+.favorites-container,
+.home-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
@@ -10,43 +14,42 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.about-container h2 {
+.container h2,
+.favorites-container h1,
+.favorites-container h2,
+.favorites-container h3,
+.not-found-container h1,
+.signup-container h4 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
-.about-container p {
+.container p,
+.favorites-container h4,
+.favorites-container p,
+.home-container h3,
+.not-found-container p {
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
-/* EntryForm.js */
-.entry-form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.entry-form-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.entry-form-container form {
+.container form,
+.login-container form,
+.signup-container form {
   display: flex;
   flex-direction: column;
 }
 
-.entry-form-container label {
+.container label {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
-.entry-form-container input,
-.entry-form-container textarea {
+.container input,
+.container textarea,
+.container select,
+.login-container input,
+.signup-container input {
   padding: 0.5rem;
   font-size: 1rem;
   margin-bottom: 1rem;
@@ -54,15 +57,10 @@
   border-radius: 4px;
 }
 
-.entry-form-container select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.entry-form-container button {
+.container button,
+.favorites-container button,
+.login-container button,
+.signup-container button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   background-color: #007bff;
@@ -72,214 +70,30 @@
   cursor: pointer;
 }
 
-.entry-form-container button:hover {
+.container button:hover,
+.favorites-container button:hover,
+.login-container button:hover,
+.signup-container button:hover {
   background-color: #0056b3;
 }
 
-/* ListForm.js */
-.list-form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.list-form-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.list-form-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.list-form-container label {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.list-form-container input,
-.list-form-container textarea {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.list-form-container select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.list-form-container button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.list-form-container button:hover {
-  background-color: #0056b3;
-}
-
-/* DeleteEntry.js */
-.delete-entry-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.delete-entry-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.delete-entry-container p {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.delete-entry-container button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+.favorites-container button {
   background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-.delete-entry-container button:hover {
+.favorites-container button:hover {
   background-color: #c82333;
 }
 
-/* DeleteList.js */
-.delete-list-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.home-container ul,
+.favorites-container ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-.delete-list-container h2 {
-  font-size: 2rem;
+.favorites-container li,
+.home-container li {
   margin-bottom: 1rem;
-}
-
-.delete-list-container p {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.delete-list-container button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.delete-list-container button:hover {
-  background-color: #c82333;
-}
-
-/* Favorites.js */
-.favorites-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.favorites-container h2 {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.favorites-container h3 {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.favorites-container h4 {
-  font-family: 'Rubik', sans-serif;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.favorites-container p {
-  font-family: 'Rubik', sans-serif;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.favorites-container h4 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* HomePage.js */
-.homepage-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.homepage-container h2 {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.homepage-container h3 {
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.homepage-container h4 {
-  font-family: 'Rubik', sans-serif;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.homepage-container button {
-  padding: 0.5rem 1rem;
-  font-family: 'Rubik', sans-serif;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.homepage-container button:hover {
-  background-color: #0056b3;
 }
 
 /* Login.js */
@@ -304,17 +118,6 @@
   margin-bottom: 1rem;
 }
 
-.login-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-container label {
-  font-family: 'Rubik', sans-serif;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
 .login-container input {
   padding: 0.5rem;
   font-family: 'Rubik', sans-serif;
@@ -324,50 +127,27 @@
   border-radius: 4px;
 }
 
-.login-container button {
-  padding: 0.5rem 1rem;
-  font-family: 'Rubik', sans-serif;
+/* NotFound.js */
+.not-found-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.not-found-container p {
   font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  margin-bottom: 1rem;
 }
 
-.login-container button:hover {
-  background-color: #0056b3;
-}
-
-/* Navbar.js */
-.navbar {
-  background-color: #f8f9fa;
-  padding: 1rem;
-}
-
-.navbar ul {
-  list-style-type: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar ul li {
-  margin-right: 1rem;
-}
-
-.navbar ul li a {
-  text-decoration: none;
-  font-family: 'Rubik', sans-serif;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.navbar ul li a:hover {
-  color: #007bff;
-}
-
-/* SignUp.js */
+/* Signup.js */
 .signup-container {
   max-width: 400px;
   margin: 0 auto;
@@ -377,24 +157,14 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.signup-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.signup-container p {
+.signup-container h4 {
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .signup-container form {
   display: flex;
   flex-direction: column;
-}
-
-.signup-container label {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
 }
 
 .signup-container input {
@@ -405,120 +175,39 @@
   border-radius: 4px;
 }
 
-.signup-container button {
-  padding: 0.5rem 1rem;
+/* Footer.js */
+footer {
+  padding: 1rem;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+footer p {
   font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  margin: 0;
 }
 
-.signup-container button:hover {
-  background-color: #0056b3;
-}
-
-/* UpdateEntry.js */
-.update-entry-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.update-entry-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.update-entry-container form {
+/* Navbar.js */
+nav ul {
+  list-style-type: none;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 }
 
-.update-entry-container label {
+nav ul li {
+  margin-right: 1rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-family: 'Rubik', sans-serif;
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.update-entry-container input,
-.update-entry-container textarea {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.update-entry-container select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.update-entry-container button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.update-entry-container button:hover {
-  background-color: #0056b3;
-}
-
-
-/* UpdateList.js */
-.update-list-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.update-list-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.update-list-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.update-list-container label {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.update-list-container input {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.update-list-container button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.update-list-container button:hover {
-  background-color: #0056b3;
+nav ul li a:hover {
+  color: #007bff;
 }

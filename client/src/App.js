@@ -1,60 +1,55 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Navbar from './pages/Navbar';
-import About from './pages/About';
-import CreateEntry from './pages/CreateEntry';
-import Favorites from './pages/Favorites';
-import CreateList from './pages/CreateList';
-import HomePage from './pages/HomePage';
+import React from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import Signup from './pages/SignUp';
-import DeleteEntry from './pages/DeleteEntry';
-import DeleteList from './pages/DeleteList';
-import UpdateEntry from './pages/UpdateEntry';
-import UpdateList from './pages/UpdateList';
-import Logout from './pages/Logout'; // Import the Logout component
+import Favorites from './components/favorites/Favorites';
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+import NotFound from './pages/NotFound';
 
-function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
-  // Function to handle login
-  const handleLogin = () => {
-    // Perform login authentication logic
-    // Set loggedIn to true if login is successful
-    setLoggedIn(true);
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
   };
+});
 
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const App = () => {
   return (
-    <Router>
-      <>
-        <Navbar />
-        <Switch>
-          <Route exact path="/login">
-            {loggedIn ? <Redirect to="/" /> : <Login handleLogin={handleLogin} />}
-          </Route>
-          <Route exact path="/">
-            {loggedIn ? <HomePage userName="John" /> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path="/about">
-            {loggedIn ? <About /> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path="/favorites">
-            {loggedIn ? <Favorites /> : <Redirect to="/login" />}
-          </Route>
-          <Route exact path="/createentry" component={CreateEntry} />
-          <Route exact path="/createlist" component={CreateList} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/deleteentry" component={DeleteEntry} />
-          <Route exact path="/deletelist" component={DeleteList} />
-          <Route exact path="/updateentry" component={UpdateEntry} />
-          <Route exact path="/updatelist" component={UpdateList} />
-          <Route exact path="/logout" component={Logout} /> {/* Add the Logout route */}
-          {/* catch-all route that is rendered when none of the defined paths match */}
-          <Route render={() => <h1 className="display-2">Wrong page!</h1>} />
-        </Switch>
-      </>
-    </Router>
+    <ApolloProvider client={client}>
+      <Router>
+        <div className="flex-column justify-flex-start min-100-vh">
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </Router>
+    </ApolloProvider>
   );
-}
+};
 
 export default App;
