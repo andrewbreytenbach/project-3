@@ -1,45 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client';
-import Navbar from './pages/Navbar';
-import About from './pages/About';
-import CreateEntry from './pages/CreateEntry';
-import Favorites from './pages/Favorites';
-import CreateList from './pages/CreateList';
-import HomePage from './pages/HomePage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import Signup from './pages/SignUp';
-import DeleteEntry from './pages/DeleteEntry';
-import DeleteList from './pages/DeleteList';
-import UpdateEntry from './pages/UpdateEntry';
-import UpdateList from './pages/UpdateList';
-import Logout from './pages/Logout'; // Import the Logout component
+import Favorites from './components/favorites/Favorites';
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+import NotFound from './pages/NotFound';
 
-// function App() {
-//   const [loggedIn, setLoggedIn] = useState(false);
-
-//   // Function to handle login
-//   const handleLogin = () => {
-//     // Perform login authentication logic
-//     // Set loggedIn to true if login is successful
-//     setLoggedIn(true);
-//   };
-
-// Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
-// Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -49,43 +26,30 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
-function App() {
+const App = () => {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Navbar />
-        
-          <Route exact path="/login" component={Login}>
-            {/* {loggedIn ? <Redirect to="/" /> : <Login handleLogin={handleLogin} />} */}
-          </Route>
-          <Route exact path="/" component={HomePage}>
-            {/* {loggedIn ? <HomePage userName="John" /> : <Redirect to="/login" />} */}
-          </Route>
-          <Route exact path="/about" component={About}>
-            {/* {loggedIn ? <About /> : <Redirect to="/login" />} */}
-          </Route>
-          <Route exact path="/favorites" component={Favorites}>
-            {/* {loggedIn ? <Favorites /> : <Redirect to="/login" />} */}
-          </Route>
-          <Route exact path="/createentry" component={CreateEntry} />
-          <Route exact path="/createlist" component={CreateList} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/deleteentry" component={DeleteEntry} />
-          <Route exact path="/deletelist" component={DeleteList} />
-          <Route exact path="/updateentry" component={UpdateEntry} />
-          <Route exact path="/updatelist" component={UpdateList} />
-          <Route exact path="/logout" component={Logout} /> {/* Add the Logout route */}
-          {/* catch-all route that is rendered when none of the defined paths match */}
-          
-        
+        <div className="flex-column justify-flex-start min-100-vh">
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </Router>
-      </ApolloProvider>
+    </ApolloProvider>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,8 @@
+/* General styles */
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
 }
 
 h1,
@@ -8,10 +11,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Rubik Mono One', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  color: #222;
+  margin-bottom: 1rem;
 }
 
 .small {
   font-weight: 300;
   font-style: italic;
+  color: #777;
 }
+
