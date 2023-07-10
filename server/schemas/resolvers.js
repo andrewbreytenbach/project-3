@@ -64,7 +64,7 @@ const resolvers = {
 
         console.log(userData)
         console.log(listData)
-        return userData
+        return listData
       }
 
       throw new Error("You're not logged in!!")
