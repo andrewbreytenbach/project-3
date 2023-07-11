@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
@@ -17,9 +17,11 @@ import NotFound from "./pages/NotFound";
 import CreateEntry from "./components/favorites/CreateEntry";
 import DeleteEntryPage from "./components/favorites/DeleteEntryPage";
 import UpdateEntryPage from "./components/favorites/UpdateEntryPage";
+import Logout from "./pages/Logout";
 
+// Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
-  uri: "/graphql",
+  uri: '/graphql',
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
@@ -41,7 +43,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const App = () => {
+function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -49,15 +51,20 @@ const App = () => {
           <Navbar />
           <div className="container">
             <Routes>
-            <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Home />} />
               <Route path="/signup" element={<SignUp />} />
-              
-              <Route path='/favorites' element={<Favorites />}/>
-              <Route path="/entries/:entryId/update" element={<UpdateEntryPage />} />
-              <Route path="/createentry" element={<CreateEntry />} />
-              <Route path="/entries/:entryId/delete" element={<DeleteEntryPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout/>}/>
+              <Route path="/" element={<Home/>} />
+              <Route path="/favorites" element={<Favorites/>} />
+              <Route
+                path="/entries/:entryId/update"
+                element={<UpdateEntryPage/>}
+              />
+              <Route path="/createentry" element={<CreateEntry/>} />
+              <Route
+                path="/entries/:entryId/delete"
+                element={<DeleteEntryPage/>}
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
@@ -69,3 +76,4 @@ const App = () => {
 };
 
 export default App;
+
