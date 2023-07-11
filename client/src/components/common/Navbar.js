@@ -17,6 +17,9 @@ const Navbar = () => {
         <li>
           <Link to="/favorites">Favorites</Link>
         </li>
+        <li>
+          <Link to="/createentry">New Entry</Link>
+        </li>
       </ul>
     </nav>
   );

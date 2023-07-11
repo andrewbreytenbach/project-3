@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_ENTRY } from '../../utils/mutations';
 
-const UpdateEntry = ({ entryId, currentTitle, currentBody, refetchLists }) => {
-  const [entryTitle, setEntryTitle] = useState(currentTitle);
-  const [entryBody, setEntryBody] = useState(currentBody);
+
+
+const UpdateEntry = ({ entryId, refetchList }) => {
+  const [formState, setFormState] = useState({
+    title: '',
+    artist: '',
+    note: '',
+    rating: 0,
+  });
+
   const [updateEntry] = useMutation(UPDATE_ENTRY);
 
-  const handleTitleChange = (event) => {
-    setEntryTitle(event.target.value);
-  };
-
-  const handleBodyChange = (event) => {
-    setEntryBody(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
   };
 
   const handleFormSubmit = async (event) => {
@@ -20,10 +27,19 @@ const UpdateEntry = ({ entryId, currentTitle, currentBody, refetchLists }) => {
 
     try {
       await updateEntry({
-        variables: { entry_id: entryId, title: entryTitle, body: entryBody },
+        variables: {
+          entryId, // Pass the entryId variable to the mutation
+          entryData: {
+            title: formState.title,
+            artist: formState.artist,
+            note: formState.note,
+            rating: parseFloat(formState.rating),
+          },
+        },
       });
-
-      refetchLists(); // Refetch the lists to update the UI after updating the entry
+  
+      // Redirect to the Favorites component after the mutation is successful
+     window.location.href = '/favorites';
     } catch (error) {
       console.error('Error updating entry:', error);
     }
@@ -35,15 +51,32 @@ const UpdateEntry = ({ entryId, currentTitle, currentBody, refetchLists }) => {
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder="Enter updated entry title"
-          value={entryTitle}
-          onChange={handleTitleChange}
+          name="title"
+          placeholder="Title"
+          value={formState.title}
+          onChange={handleChange}
         />
-        <textarea
-          placeholder="Enter updated entry text"
-          value={entryBody}
-          onChange={handleBodyChange}
-        ></textarea>
+        <input
+          type="text"
+          name="artist"
+          placeholder="Artist"
+          value={formState.artist}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="note"
+          placeholder="Note"
+          value={formState.note}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="rating"
+          placeholder="Rating"
+          value={formState.rating}
+          onChange={handleChange}
+        />
         <button type="submit">Update Entry</button>
       </form>
     </div>

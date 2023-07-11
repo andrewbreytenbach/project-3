@@ -41,3 +41,27 @@ export const GET_LISTS = gql`
     }
   }
 `;
+
+export const GET_ALL_ENTRIES = gql`
+  query {
+    allEntries {
+      _id
+      title
+      artist
+      note
+      rating
+    }
+  }
+`;
+
+export const GET_ENTRY = gql`
+  query getEntry($entryId: ID!) {
+    entry(entryId: $entryId) {
+      _id
+      title
+      artist
+      note
+      rating
+    }
+  }
+`;

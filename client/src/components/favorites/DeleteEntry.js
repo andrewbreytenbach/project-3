@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_ENTRY } from '../../utils/mutations';
 
-const DeleteEntry = ({ entryId, refetchLists }) => {
+const DeleteEntry = ({ entryId }) => {
   const [deleteEntry] = useMutation(DELETE_ENTRY);
 
-  const handleDeleteEntry = async () => {
+  const handleDelete = async () => {
     try {
       await deleteEntry({
-        variables: { entry_id: entryId },
+        variables: { entryId },
       });
 
-      refetchLists(); // Refetch the lists to update the UI after deleting the entry
+      // Redirect to the Favorites component after the mutation is successful
+      window.location.href = '/favorites';
     } catch (error) {
       console.error('Error deleting entry:', error);
     }
@@ -19,8 +20,8 @@ const DeleteEntry = ({ entryId, refetchLists }) => {
 
   return (
     <div>
-      <h2>Delete Entry</h2>
-      <button onClick={handleDeleteEntry}>Delete Entry</button>
+      <p>Are you sure you want to delete this entry?</p>
+      <button onClick={handleDelete}>Delete Entry</button>
     </div>
   );
 };
