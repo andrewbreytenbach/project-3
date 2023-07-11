@@ -2,31 +2,25 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_ENTRY } from '../../utils/mutations';
 
-const EntryForm = ({ listId, refetchLists }) => {
-  const [entryText, setEntryText] = useState('');
-  const [entryTitle, setEntryTitle] = useState('');
-  const [entryArtist, setEntryArtist] = useState('');
-  const [entryRating, setEntryRating] = useState(0);
+const CreateEntry = ({ listId, refetchEntries }) => {
+  
+  const [formState, setFormState] = useState({
+    title: '',
+    artist: '',
+    note: '',
+    rating: 0,
+  });
+
   const [createEntry] = useMutation(CREATE_ENTRY);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    switch (name) {
-      case 'title':
-        setEntryTitle(value);
-        break;
-      case 'artist':
-        setEntryArtist(value);
-        break;
-      case 'text':
-        setEntryText(value);
-        break;
-      case 'rating':
-        setEntryRating(Number(value));
-        break;
-      default:
-        break;
-    }
+    const parsedValue = name === 'rating' ? parseInt(value) : value;
+
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: parsedValue,
+    }));
   };
 
   const handleFormSubmit = async (event) => {
@@ -34,20 +28,22 @@ const EntryForm = ({ listId, refetchLists }) => {
 
     try {
       await createEntry({
-        variables: {
-          list_id: listId,
-          title: entryTitle,
-          artist: entryArtist,
-          body: entryText,
-          rating: entryRating,
-        },
+        variables: { entryData: formState },
       });
 
-      setEntryText('');
-      setEntryTitle('');
-      setEntryArtist('');
-      setEntryRating(0);
-      refetchLists(); // Refetch the lists to update the UI after creating a new entry
+      setFormState({
+        title: '',
+        artist: '',
+        note: '',
+        rating: 0,
+      });
+
+      if (typeof refetchEntries === 'function') {
+        refetchEntries(); // Check if refetchEntries is a function and call it
+      }
+
+      // Redirect to the Favorites component after the mutation is successful
+      window.location.href = '/favorites';
     } catch (error) {
       console.error('Error creating entry:', error);
     }
@@ -58,36 +54,36 @@ const EntryForm = ({ listId, refetchLists }) => {
       <h2>Create New Entry</h2>
       <form onSubmit={handleFormSubmit}>
         <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={entryTitle}
+          name='title'
+          type='text'
+          placeholder='Enter entry title'
+          value={formState.title}
           onChange={handleChange}
         />
         <input
-          type="text"
-          name="artist"
-          placeholder="Artist"
-          value={entryArtist}
+          name='artist'
+          type='text'
+          placeholder='Enter artist name'
+          value={formState.artist}
           onChange={handleChange}
         />
         <textarea
-          name="text"
-          placeholder="Enter your entry text"
-          value={entryText}
+          name='note'
+          placeholder='Enter note'
+          value={formState.note}
           onChange={handleChange}
         ></textarea>
         <input
-          type="number"
-          name="rating"
-          placeholder="Rating"
-          value={entryRating}
+          name='rating'
+          type='number'
+          placeholder='Enter rating'
+          value={formState.rating}
           onChange={handleChange}
         />
-        <button type="submit">Create Entry</button>
+        <button type='submit'>Create Entry</button>
       </form>
     </div>
   );
 };
 
-export default EntryForm;
+export default CreateEntry;

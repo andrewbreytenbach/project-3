@@ -1,22 +1,23 @@
-const { User, List } = require('../models')
+const User = require('../models/User');
+const Entry = require('../models/Entry');
 const { signToken } = require('../utils/auth');
-
 
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).populate('list');
+        const userData = await User.findOne({ _id: context.user._id });
         return userData;
       }
       throw new Error('Not authenticated');
     },
-    allLists: async (parent, args, context) => {
-      if (context.user) {
-        const listData = await List.find();
-        return listData;
+    allEntries: async () => {
+      try {
+        const entries = await Entry.find();
+        return entries;
+      } catch (error) {
+        throw new Error('Failed to fetch entries');
       }
-      throw new Error('Not authenticated');
     },
   },
 
@@ -28,7 +29,6 @@ const resolvers = {
         throw new Error('Invalid email or password');
       }
 
-      console.log(user)
       const correctPassword = await user.isCorrectPassword(password);
 
       if (!correctPassword) {
@@ -52,73 +52,31 @@ const resolvers = {
       };
     },
 
-    createList: async (parent, args, context) => {
-      if (context.user) {
-        const listData = await List.create(args);
-
-        const userData = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $push: { list: listData._id } },
-          { new: true },
-        )
-
-        console.log(userData)
-        console.log(listData)
-        return listData
-      }
-
-      throw new Error("You're not logged in!!")
-
+    createEntry: async (_, { entryData }) => {
+      const entry = new Entry(entryData);
+      await entry.save();
+      return entry;
     },
 
-    deleteList: async (parent, { list_id }, context) => {
-      if (context.user) {
+    updateEntry: async (_, { entryId, entryData }) => {
+      const entry = await Entry.findByIdAndUpdate(entryId, entryData, { new: true });
 
-        const userData = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { list: list_id } },
-          { new: true },
-        )
-
-        console.log(userData)
-
-        return userData
+      if (!entry) {
+        throw new Error('Entry not found');
       }
 
-      throw new Error("You're not logged in!!")
-
+      return entry;
     },
+    deleteEntry: async (_, { entryId }) => {
+      const entry = await Entry.findByIdAndDelete(entryId);
 
-    addEntry: async (parent, { list_id, entryInput }, context) => {
-      if (context.user) {
-        const list = await List.findOneAndUpdate(
-          { _id: list_id },
-          { $push: { entries: entryInput } },
-          { new: true },
-        )
-
-        return list
+      if (!entry) {
+        throw new Error('Entry not found');
       }
 
-      throw new Error("You're not logged in!!")
+      return entry;
     },
-
-    deleteEntry: async (parent, { list_id, entry_id }, context) => {
-      if (context.user) {
-        const list = await List.findOneAndUpdate(
-          { _id: list_id },
-          { $pull: { entries: { _id: entry_id } } },
-          { new: true }
-        )
-
-        console.log(list)
-        return list
-      }
-
-      throw new Error("You're not logged in!!")
-    },
-
-  }
+  },
 };
 
 module.exports = resolvers;

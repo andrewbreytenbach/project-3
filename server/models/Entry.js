@@ -1,7 +1,7 @@
+// Entry model
 const { Schema, model } = require('mongoose');
 
 const entrySchema = new Schema({
-  
   title: {
     type: String,
     required: true
@@ -16,10 +16,8 @@ const entrySchema = new Schema({
   rating: {
     type: Number,
   },
-
 });
- 
-  
 
+const Entry = model('Entry', entrySchema);
 
-module.exports = entrySchema;
+module.exports = Entry;
