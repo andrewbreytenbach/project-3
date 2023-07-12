@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_ENTRY } from '../../utils/mutations';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Auth from '../../utils/auth';
 
-const CreateEntry = ({ listId, refetchEntries }) => {
+const CreateEntry = ({ listId, refetchEntries, history }) => {
   
   const [formState, setFormState] = useState({
     title: '',
@@ -45,7 +45,7 @@ const CreateEntry = ({ listId, refetchEntries }) => {
       }
 
       // Redirect to the Favorites component after the mutation is successful
-      window.location.href = '/favorites';
+      history.push('/favorites');
     } catch (error) {
       console.error('Error creating entry:', error);
     }
