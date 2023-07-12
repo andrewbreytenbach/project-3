@@ -1,7 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_ENTRIES } from '../utils/queries';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Auth from '../utils/auth';
 
 const Entries = () => {
   const navigate = useNavigate();
@@ -31,6 +32,15 @@ const Entries = () => {
     navigate(`/entries/${entryId}/delete`);
     console.log(`Delete entry with ID: ${entryId}`);
   };
+
+  if (!Auth.loggedIn()) {
+    return (
+      <p>
+        You need to be logged in to view the entries. Please{' '}
+        <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
+      </p>
+    );
+  }
 
   return (
     <div>

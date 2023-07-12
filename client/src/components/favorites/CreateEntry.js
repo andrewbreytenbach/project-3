@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_ENTRY } from '../../utils/mutations';
+import { Link } from 'react-router-dom';
+import Auth from '../../utils/auth';
 
 const CreateEntry = ({ listId, refetchEntries }) => {
   
@@ -48,6 +50,15 @@ const CreateEntry = ({ listId, refetchEntries }) => {
       console.error('Error creating entry:', error);
     }
   };
+
+  if (!Auth.loggedIn()) {
+    return (
+      <p>
+        You need to be logged in to create a new entry. Please{' '}
+        <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
+      </p>
+    );
+  }
 
   return (
     <div>
