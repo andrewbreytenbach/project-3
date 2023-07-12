@@ -18,6 +18,7 @@ import CreateEntry from "./components/favorites/CreateEntry";
 import DeleteEntryPage from "./components/favorites/DeleteEntryPage";
 import UpdateEntryPage from "./components/favorites/UpdateEntryPage";
 import Logout from "./pages/Logout";
+import './app.css';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
