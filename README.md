@@ -43,7 +43,7 @@ To run the project locally, follow these steps:
 
 ## Screenshots
 Here is the homepage of our website: 
-![Homepage](./Screenshot)
+![Homepage](./Screenshot.png)
 
 ## Contact
 * Andrew Breytenbach
