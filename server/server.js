@@ -7,9 +7,7 @@ const { authMiddleware } = require('./utils/auth')
 const listRoutes = require('./routes/listRoutes'); 
 const entryRoutes = require('./routes/entryRoutes'); 
 
-// const routes = require('./routes');
-// const { GraphQLModule } = require('graphql-modules');
-// const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core'); // Import the necessary plugin
+
 
 // async function startApolloServer() {
 const app = express();
@@ -20,7 +18,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
-  //     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()], // Add the playground plugin
+
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -50,18 +48,6 @@ const startApolloServer = async () => {
 //Initiate the server 
 startApolloServer()
 
-//   // Apply Apollo Server middleware before other middleware and routes
-//   server.applyMiddleware({ app });
-
-//   const driverConfig = {
-//     driver: ApolloDriver,
-//     cache: 'bounded',
-//     // Other configuration options for your Apollo Driver
-//   };
-
-//   const graphqlModule = new GraphQLModule(driverConfig);
-
-//   // Middleware and routes
 
 
 
