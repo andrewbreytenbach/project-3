@@ -42,7 +42,8 @@ To run the project locally, follow these steps:
 * Discover new music and enhance your music journey through the community.
 
 ## Screenshots
-Include relevant screenshots of the application to showcase its appearance and functionality.
+Here is the homepage of our website: 
+![Homepage](./Screenshot)
 
 ## Contact
 * Andrew Breytenbach
