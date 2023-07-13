@@ -22,7 +22,9 @@ My Personal Music Diary is a web application designed to help music enthusiasts 
 * CSS
 
 ## Getting Started
-To access the project, visit the repository link: My Personal Music Diary
+To access the project, visit the repository link: [My Personal Music Diary](https://github.com/andrewbreytenbach/project-3 )
+
+[Deployed Application](https://group7-songnotes-1a2024634663.herokuapp.com/)
 
 To run the project locally, follow these steps:
 
@@ -46,6 +48,7 @@ Include relevant screenshots of the application to showcase its appearance and f
 * Andrew Breytenbach
 * Spencer Hill
 * Kevin Cofield
+  
 
 ## Acknowledgments
 * React - JavaScript library for building user interfaces.
