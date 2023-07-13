@@ -3,25 +3,25 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav style={{margin:"10px"}}>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/" style={{color: "white"}}>Home</Link>
         </li>
         <li>
-          <Link to="/signup">Signup</Link>
+          <Link to="/signup" style={{color: "white"}}>Signup</Link>
         </li>
         <li>
-          <Link to="/login">Login</Link>
+          <Link to="/login" style={{color: "white"}}>Login</Link>
         </li>
         <li>
-          <Link to="/favorites">Favorites</Link>
+          <Link to="/favorites" style={{color: "white"}}>Faves</Link>
         </li>
         <li>
-          <Link to="/createentry">New Entry</Link>
+          <Link to="/createentry" style={{color: "white"}}>Add New</Link>
         </li>
         <li>
-          <Link to="/logout">Logout</Link>
+          <Link to="/logout" style={{color: "white"}}>Logout</Link>
         </li>
       </ul>
     </nav>

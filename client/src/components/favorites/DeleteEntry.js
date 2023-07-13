@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { DELETE_ENTRY } from '../../utils/mutations';
+import { Link, useNavigate } from 'react-router-dom';
 
 const DeleteEntry = ({ entryId }) => {
+  const navigate = useNavigate()
   const [deleteEntry] = useMutation(DELETE_ENTRY);
 
   const handleDelete = async () => {
@@ -12,7 +14,7 @@ const DeleteEntry = ({ entryId }) => {
       });
 
       // Redirect to the Favorites component after the mutation is successful
-      window.location.href = '/favorites';
+    navigate('/favorites');
     } catch (error) {
       console.error('Error deleting entry:', error);
     }

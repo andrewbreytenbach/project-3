@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_ENTRY } from '../../utils/mutations';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 
 
 const UpdateEntry = ({ entryId, refetchList }) => {
+  const navigate = useNavigate()
+
   const [formState, setFormState] = useState({
     title: '',
     artist: '',
@@ -39,7 +43,7 @@ const UpdateEntry = ({ entryId, refetchList }) => {
       });
   
       // Redirect to the Favorites component after the mutation is successful
-     window.location.href = '/favorites';
+     navigate('/favorites');
     } catch (error) {
       console.error('Error updating entry:', error);
     }
