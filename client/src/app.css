@@ -1,11 +1,15 @@
 /* App.css */
 
+
+
 .container,
 .about-container,
 .entry-form-container,
 .list-form-container,
 .favorites-container,
 .home-container {
+  display: flex;
+  align-items: center;
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;

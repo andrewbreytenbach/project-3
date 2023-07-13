@@ -48,9 +48,9 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
+        <div className="flex-column justify-flex-center min-100-vh">
           <Navbar />
-          <div className="container">
+          <div className="container" style={{margin:"5px"}}>
             <Routes>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
